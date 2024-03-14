@@ -17,8 +17,8 @@ public class Products {
     @GeneratedValue(strategy =  GenerationType.AUTO) // выполняет функцию Surell
     @Column(name = "id")// создаёт колонку
     private Long id;
-    @Column(name = "name")// создаёт колонку
-    private String name;
+    @Column(name = "title")// создаёт колонку
+    private String title;
     @Column(name = "description" , columnDefinition = "text")// создаёт колонку
     private String description;
     @Column(name = "price")// создаёт колонку

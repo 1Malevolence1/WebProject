@@ -2,42 +2,42 @@ package com.example.TraningSpring.servise;
 
 
 import com.example.TraningSpring.models.Products;
+import com.example.TraningSpring.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class ProductService {
-        private List<Products> products = new ArrayList<>();
-        private long ID = 0;
 
-         {
-            products.add(new Products(ID++,"Ноубтук", "Копмпактный", 40_000, "Пятигоск", "acer"));
-            products.add(new Products(ID++,"play staystation 5", "новый", 80_000, "Пятигоск", "Sony"));
-         }
+    private final ProductRepository productRepository;
 
-        public void addProducts(Products products){
-             products.setId(ID++);
-            if(this.products == null){
-                this.products = new ArrayList<>();
-            }
-            this.products.add(products);
+
+    public void addProducts(Products products) {
+        log.info("save product {}", products);
+        productRepository.save(products);
+    }
+
+    public List<Products> getProductList(String title) {
+        log.info("Поисковой запрос на: {}", title);
+        if (title != null) {
+            return productRepository.findByTitle(title);
+        } else {
+            return productRepository.findAll();
         }
-
-        public List<Products> getProductList(){
-            return products;
-        }
+    }
 
 
-        public void deleteProducts(Long id){
-             products.removeIf(products -> products.getId().equals(id));
-        }
+    public void deleteProducts(Long id) {
+       productRepository.deleteById(id);
+    }
 
     public Products getProductId(Long id) {
-        for (Products product : products) {
-            if (product.getId().equals(id)) return product;
-        }
-        return null;
+        return productRepository.findById(id).orElse(null);
     }
 }
