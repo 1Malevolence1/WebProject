@@ -22,11 +22,14 @@ public class Image {
     private String contentType;
     @Column(name = "isPreviewImage")
     private boolean isPreviewImage;
-    @Lob
 
+    //Lob
+    @Lob
     private byte[] bytes;
 
-
+    // LAZY - ленивая загрузка, код будет работать быстрее, но мы не будем подгружать все связанные сущности
+    //EAGER - наоборт
+    //ManyToOne - многое к одному(много фотографий к одному продукту)
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Products products;
 }
